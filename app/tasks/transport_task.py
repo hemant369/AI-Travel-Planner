@@ -1,58 +1,20 @@
-from crewai import Task
-
-from agents.transport_agent import transport_agent
-from tasks.planner_task import planner_task
-from model.schemas import TransportResult
+import json
+from crewai import Agent, Task
+from model.schemas import TransportAdvice
 
 
-transport_task = Task(
-    description="""
-    Using the Maps Tool, retrieve all available transportation options.
-    Format the response using EXACTLY the following structure:
+def create_transport_task(agent: Agent, route_data: dict) -> Task:
+    """Create a fresh transport-recommendation Task using pre-fetched route data."""
+    return Task(
+        description=f"""
+        Given these factual road route options from {route_data.get('source')} to {route_data.get('destination')}:
+        {json.dumps(route_data.get('transport_options', []), ensure_ascii=False)}
 
-    ## Transportation
-    **Source:** <source>
-    **Destination:** <destination>
-    ### Available Transportation Options
-
-    #### Option 1
-    - Mode:
-    - Distance:
-    - Estimated Duration:
-
-    #### Option 2
-    - Mode:
-    - Distance:
-    - Estimated Duration:
-
-    ### Recommended Transportation
-    - Recommended Mode:
-    - Reason:
-
-    ### Navigation
-    - Google Maps Link:
-
-    Rules:
-    - If only one transportation option is available (e.g., motorcycle route
-    unsupported in this region), include only that option and omit the
-    unused Option slot entirely — do not fabricate a second option.
-    """,
-
-    expected_output="""
-    A transportation summary containing:
-
-    - Source
-    - Destination
-    - Available transportation options
-        - Transport mode
-        - Distance
-        - Estimated duration
-    - Recommended transportation option
-    - Google Maps navigation link
-    """,
-
-    agent=transport_agent,
-    context=[planner_task],
-    async_execution=True,
-    output_pydantic=TransportResult,
-)
+        Choose the best `recommended_mode` from the provided options only and
+        provide a concise 1-sentence `recommendation_reason` comparing distance/duration.
+        """,
+        expected_output="A TransportAdvice object selecting recommended_mode and recommendation_reason.",
+        agent=agent,
+        async_execution=False,
+        output_pydantic=TransportAdvice,
+    )

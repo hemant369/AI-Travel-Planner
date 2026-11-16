@@ -25,25 +25,24 @@ def _parse_route(route_data: dict) -> dict:
     }
 
 
-@tool("Maps Tool")
-def get_route(source: str, destination: str) -> dict:
-    """
-    Retrieve road transportation information between two locations.
+def fetch_route(source: str, destination: str) -> dict:
+    """Retrieve road transportation options between source and destination."""
+    google_maps_link = (
+        "https://www.google.com/maps/dir/"
+        f"{quote_plus(source)}/{quote_plus(destination)}"
+    )
 
-    Use this tool when the user needs road travel information between a
-    source and destination.
+    try:
+        client = MapsClient()
+    except ValueError as exc:
+        return {
+            "source": source,
+            "destination": destination,
+            "transport_options": [],
+            "google_maps_link": google_maps_link,
+            "error": str(exc),
+        }
 
-    Returns:
-    - Source and destination
-    - Available road transportation options
-    - Distance and estimated duration for each mode
-    - Google Maps navigation link
-
-    Note:
-    - Routes are provided by the Google Routes API.
-    - Motorcycle routes may not be available in all regions.
-    """
-    client = MapsClient()
     transport_options = []
 
     # Driving Route
@@ -70,11 +69,6 @@ def get_route(source: str, destination: str) -> dict:
     except Exception as e:
         bike_error = str(e)
 
-    google_maps_link = (
-        "https://www.google.com/maps/dir/"
-        f"{quote_plus(source)}/{quote_plus(destination)}"
-    )
-
     result = {
         "source": source,
         "destination": destination,
@@ -88,3 +82,9 @@ def get_route(source: str, destination: str) -> dict:
     if "bike_error" in locals():
         result["motorcycle_error"] = bike_error
     return result
+
+
+@tool("Maps Tool")
+def get_route(source: str, destination: str) -> dict:
+    """Retrieve road transportation options between two locations."""
+    return fetch_route(source, destination)

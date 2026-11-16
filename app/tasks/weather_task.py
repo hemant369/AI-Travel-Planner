@@ -1,26 +1,20 @@
-from crewai import Task
-
-from agents.weather_agent import weather_agent
-from tasks.planner_task import planner_task
-from model.schemas import WeatherResult
+import json
+from crewai import Agent, Task
+from model.schemas import WeatherAdvice
 
 
-weather_task = Task(
-    description = """
-        Using the travel information provided by the planner,
-        call the Weather Tool with the destination and travel start date. Do not provide weather for the source city, transit cities,
-        or any other location.
-        Never substitute today's weather for a future date. Preserve unavailable
-        forecast errors and provide advice only when weather data exists.""",
-    expected_output = """
-        A weather report containing:\n"
-            - Destination\n
-            - Temperature (°C)\n
-            - Humidity (%)\n
-            - Weather condition\n
-            - Travel recommendation""",
-    agent = weather_agent,
-    context = [planner_task],
-    async_execution=True,
-    output_pydantic=WeatherResult,
-)
+def create_weather_task(agent: Agent, weather_data: dict) -> Task:
+    """Create a fresh weather-advice Task using pre-fetched weather data."""
+    return Task(
+        description=f"""
+        Given this factual weather data for {weather_data.get('destination')}:
+        {json.dumps(weather_data, ensure_ascii=False)}
+
+        Write a practical 1-2 sentence clothing, packing, and travel
+        recommendation tailored to the temperature, humidity, and condition.
+        """,
+        expected_output="A WeatherAdvice object with a concise packing/travel recommendation.",
+        agent=agent,
+        async_execution=False,
+        output_pydantic=WeatherAdvice,
+    )

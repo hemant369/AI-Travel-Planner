@@ -1,5 +1,6 @@
 """Typed contracts shared by CrewAI tasks."""
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, field_validator
+
 
 class TripDetails(BaseModel):
     source: str
@@ -9,6 +10,7 @@ class TripDetails(BaseModel):
     duration_days: int = Field(ge=1)
     budget_inr: int = Field(ge=1)
     travelers: int = Field(ge=1)
+
 
 class WeatherResult(BaseModel):
     destination: str
@@ -20,6 +22,14 @@ class WeatherResult(BaseModel):
     recommendation: str | None = None
     error: str | None = None
 
+    @field_validator("temperature_c", "humidity_percent", "condition", mode="before")
+    @classmethod
+    def _unwrap_scalar(cls, value):
+        if isinstance(value, list):
+            return value[0] if value else None
+        return value
+
+
 class HotelOption(BaseModel):
     name: str
     rating: float | None = None
@@ -27,6 +37,7 @@ class HotelOption(BaseModel):
     price_per_night: str | None = None
     address: str | None = None
     website: str | None = None
+
 
 class AccommodationResult(BaseModel):
     destination: str
@@ -39,10 +50,12 @@ class AccommodationResult(BaseModel):
     recommendation_reason: str | None = None
     error: str | None = None
 
+
 class RouteOption(BaseModel):
     mode: str
     distance_km: float
     estimated_duration: str
+
 
 class TransportResult(BaseModel):
     source: str
@@ -53,15 +66,54 @@ class TransportResult(BaseModel):
     google_maps_link: str
     error: str | None = None
 
+
+class WeatherAdvice(BaseModel):
+    recommendation: str
+
+
+class TransportAdvice(BaseModel):
+    recommended_mode: str
+    recommendation_reason: str
+
+
+class AccommodationAdvice(BaseModel):
+    best_hotel: str
+    recommendation_reason: str
+
+
 class ResearchItem(BaseModel):
     name: str
     description: str
     source_url: str | None = None
 
+
+class TopPicksResult(BaseModel):
+    destination: str
+    attractions: list[ResearchItem] = Field(default_factory=list)
+    food: list[ResearchItem] = Field(default_factory=list)
+    error: str | None = None
+
+
+class DestinationGuideBasics(BaseModel):
+    destination: str
+    start_date: str
+    end_date: str
+    overview: str | None = None
+    best_season: str | None = None
+    peak_tourist_season: str | None = None
+    local_transportation: list[ResearchItem] = Field(default_factory=list)
+    safety_and_etiquette: list[ResearchItem] = Field(default_factory=list)
+    expenses: list[ResearchItem] = Field(default_factory=list)
+    first_time_visitor_advice: list[ResearchItem] = Field(default_factory=list)
+    festivals: list[ResearchItem] = Field(default_factory=list)
+    error: str | None = None
+
+
 class DestinationGuideResult(BaseModel):
     destination: str
     start_date: str
     end_date: str
+    overview: str | None = None
     best_season: str | None = None
     peak_tourist_season: str | None = None
     attractions: list[ResearchItem] = Field(default_factory=list)

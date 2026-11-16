@@ -22,6 +22,8 @@ class MapsClient:
         if not self.api_key:
             raise ValueError("GOOGLE_MAPS_API_KEY is not configured.")
 
+        self._session = requests.Session()
+
     def compute_route(
         self,
         source: str,
@@ -67,8 +69,9 @@ class MapsClient:
             ),
         }
 
+        response = None
         try:
-            response = requests.post(
+            response = self._session.post(
                 self.BASE_URL,
                 headers=headers,
                 json=body,

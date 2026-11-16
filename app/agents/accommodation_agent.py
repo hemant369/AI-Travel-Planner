@@ -10,5 +10,6 @@ accommodation_agent = Agent(
                "Never invent hotel names, availability, prices, or ratings."),
     llm=llm,
     tools=[search_hotels],
+    max_iter=5,
     verbose=CREW_VERBOSE,
 )

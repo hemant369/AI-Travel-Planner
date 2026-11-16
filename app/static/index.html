@@ -3,52 +3,451 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#102a43">
-  <title>Wayfinder — Travel Planner</title>
+  <meta name="theme-color" content="#0f172a">
+  <title>Wayfinder — Editorial Travel Concierge</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
-    :root{--navy:#102a43;--navy-2:#243b53;--teal:#087f72;--teal-2:#0f9f8f;--sky:#e9f7f5;--bg:#f4f7fa;--card:#fff;--ink:#172b4d;--muted:#64748b;--line:#e2e8f0;--orange:#f59e0b;--danger:#b42318;--shadow:0 18px 50px rgba(16,42,67,.1)}
-    *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.65 Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif}button,input{font:inherit}button{cursor:pointer}.shell{width:min(1180px,calc(100% - 40px));margin:auto}
-    .topbar{height:72px;background:#fff;border-bottom:1px solid var(--line)}.topbar .shell{height:100%;display:flex;align-items:center;justify-content:space-between}.brand{display:flex;align-items:center;gap:11px;font-size:19px;font-weight:800;color:var(--navy);letter-spacing:-.3px}.logo{width:38px;height:38px;display:grid;place-items:center;border-radius:11px;background:linear-gradient(135deg,var(--teal),var(--teal-2));color:#fff;box-shadow:0 7px 17px rgba(8,127,114,.25)}.top-note{color:var(--muted);font-size:13px}
-    .hero{background:linear-gradient(120deg,#102a43 0%,#163f55 58%,#087f72 130%);color:#fff;padding:64px 0 108px;position:relative;overflow:hidden}.hero:after{content:"";position:absolute;width:430px;height:430px;border:1px solid rgba(255,255,255,.1);border-radius:50%;right:-80px;top:-210px;box-shadow:0 0 0 70px rgba(255,255,255,.035),0 0 0 140px rgba(255,255,255,.02)}.eyebrow{text-transform:uppercase;letter-spacing:2px;font-size:11px;font-weight:800;color:#75e4d2}.hero h1{max-width:700px;margin:12px 0 14px;font-size:clamp(38px,5.5vw,64px);line-height:1.04;letter-spacing:-2.4px}.hero p{max-width:620px;margin:0;color:#c8d9e6;font-size:18px}
-    .planner{position:relative;margin-top:-66px;z-index:2;background:#fff;border:1px solid rgba(226,232,240,.8);border-radius:20px;padding:26px;box-shadow:var(--shadow)}.planner-head{display:flex;justify-content:space-between;align-items:start;gap:20px;margin-bottom:22px}.planner h2{margin:0;font-size:20px;color:var(--navy)}.planner-head p{margin:3px 0 0;color:var(--muted);font-size:13px}.badge{padding:6px 10px;border-radius:999px;background:var(--sky);color:var(--teal);font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.7px}
-    form{display:grid;grid-template-columns:1.1fr 1.1fr 1fr 1fr .7fr 1fr;gap:14px}label{display:grid;gap:7px;color:var(--navy-2);font-size:12px;font-weight:750}input{width:100%;height:46px;border:1px solid var(--line);border-radius:10px;padding:0 12px;background:#fbfdff;color:var(--ink);transition:.2s}input:focus{outline:3px solid rgba(15,159,143,.13);border-color:var(--teal)}.submit{grid-column:1/-1;height:48px;border:0;border-radius:11px;background:var(--teal);color:#fff;font-weight:800;transition:.2s;box-shadow:0 8px 18px rgba(8,127,114,.2)}.submit:hover{background:#06695f;transform:translateY(-1px)}.submit:disabled{opacity:.7;transform:none;cursor:wait}.form-error{display:none;grid-column:1/-1;margin:0;color:var(--danger);font-size:13px}.form-error.show{display:block}
-    .progress{display:none;margin:28px 0;padding:22px 24px;background:#fff;border:1px solid var(--line);border-radius:16px;box-shadow:0 8px 25px rgba(16,42,67,.05)}.progress.show{display:flex;align-items:center;gap:16px}.spinner{width:38px;height:38px;flex:0 0 auto;border:4px solid #ccece7;border-top-color:var(--teal);border-radius:50%;animation:spin .8s linear infinite}.progress strong{display:block;color:var(--navy)}.progress span{color:var(--muted);font-size:13px}.progress.error{background:#fff7f6;border-color:#fecdca;color:var(--danger)}.progress.error .spinner{display:none}@keyframes spin{to{transform:rotate(360deg)}}
-    #result{display:none;margin:32px 0 70px}#result.show{display:block}.result-hero{padding:28px 30px;border-radius:18px;background:linear-gradient(120deg,var(--navy),#164e63);color:#fff;display:flex;align-items:center;justify-content:space-between;gap:25px}.route-label{color:#78e0d1;font-size:11px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase}.result-hero h2{font-size:30px;line-height:1.2;margin:5px 0 8px;letter-spacing:-.8px}.result-hero p{margin:0;color:#c7d8e5}.route-icon{width:58px;height:58px;display:grid;place-items:center;border-radius:50%;background:rgba(255,255,255,.1);font-size:25px}
-    .facts{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:14px;overflow:hidden;margin:16px 0}.fact{padding:17px 19px;background:#fff}.fact small{display:block;color:var(--muted);font-size:11px;text-transform:uppercase;letter-spacing:.8px;font-weight:750}.fact strong{display:block;margin-top:4px;color:var(--navy);font-size:14px}
-    .result-grid{display:grid;grid-template-columns:230px minmax(0,1fr);gap:20px;align-items:start}.toc{position:sticky;top:20px;background:#fff;border:1px solid var(--line);border-radius:14px;padding:15px}.toc-title{padding:3px 9px 10px;color:var(--muted);font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:1px}.toc a{display:block;padding:8px 9px;border-radius:8px;color:var(--navy-2);font-size:13px;text-decoration:none}.toc a:hover{background:var(--sky);color:var(--teal)}
-    .report{min-width:0}.report-section{background:#fff;border:1px solid var(--line);border-radius:14px;padding:25px 28px;margin-bottom:16px;box-shadow:0 5px 18px rgba(16,42,67,.035)}.report-section>h2:first-child{margin-top:0}.report h1{display:none}.report h2{margin:4px 0 17px;color:var(--navy);font-size:22px;letter-spacing:-.3px}.report h3{margin:23px 0 12px;color:var(--teal);font-size:16px}.report p{margin:10px 0;color:#475569}.report ul,.report ol{padding-left:20px}.report li{margin:8px 0;color:#475569}.report strong{color:var(--navy-2)}.report blockquote{margin:0;padding:14px 17px;background:var(--sky);border-left:4px solid var(--teal);border-radius:0 9px 9px 0}.report blockquote p{margin:0;color:#285e61}.report a{color:var(--teal);font-weight:700;text-underline-offset:3px}.table-wrap{overflow-x:auto;margin:15px 0}.report table{width:100%;border-collapse:separate;border-spacing:0;min-width:580px;border:1px solid var(--line);border-radius:10px;overflow:hidden}.report th{padding:11px 13px;background:#eff7f6;color:var(--navy);font-size:12px;text-transform:uppercase;letter-spacing:.45px;text-align:left}.report td{padding:12px 13px;border-top:1px solid var(--line);color:#475569;vertical-align:top}.report tr:hover td{background:#fbfdfd}.empty{padding:45px;text-align:center;color:var(--muted)}
-    @media(max-width:900px){form{grid-template-columns:repeat(2,1fr)}.facts{grid-template-columns:repeat(2,1fr)}.result-grid{grid-template-columns:1fr}.toc{position:static;display:flex;overflow:auto}.toc-title{display:none}.toc a{white-space:nowrap}}
-    @media(max-width:560px){.shell{width:min(100% - 24px,1180px)}.top-note,.badge{display:none}.hero{padding:45px 0 95px}.hero h1{letter-spacing:-1.5px}.planner{padding:19px}form{grid-template-columns:1fr}.planner-head{margin-bottom:17px}.facts{grid-template-columns:1fr 1fr}.fact{padding:13px}.result-hero{padding:23px}.route-icon{display:none}.result-hero h2{font-size:24px}.report-section{padding:21px 18px}}
+    :root{
+      --bg:#faf8f5;
+      --surface:#ffffff;
+      --surface-2:#f4f0ea;
+      --ink:#14181f;
+      --ink-2:#334155;
+      --muted:#64748b;
+      --line:#e7e1d8;
+      --pine:#114232;
+      --pine-2:#1b6149;
+      --mint:#e8f3ee;
+      --coral:#d95338;
+      --coral-soft:#fdf0ed;
+      --gold:#b45309;
+      --gold-soft:#fef3c7;
+      --danger:#b42318;
+      --radius-lg:22px;
+      --radius-md:16px;
+      --shadow-sm:0 2px 10px rgba(20,24,31,.04);
+      --shadow-md:0 14px 36px rgba(20,24,31,.08);
+      --shadow-lg:0 26px 60px rgba(20,24,31,.12);
+    }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0;
+      background:
+        radial-gradient(900px 480px at 90% -80px,rgba(217,83,56,.08),transparent 60%),
+        radial-gradient(800px 520px at -10% 120px,rgba(17,66,50,.07),transparent 60%),
+        var(--bg);
+      color:var(--ink);
+      font:15px/1.65 "Plus Jakarta Sans",ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;
+      -webkit-font-smoothing:antialiased;
+    }
+    button,input{font:inherit}
+    button{cursor:pointer}
+    .shell{width:min(1240px,calc(100% - 40px));margin:auto}
+
+    /* Topbar */
+    .topbar{
+      position:sticky;top:0;z-index:30;height:66px;
+      background:rgba(250,248,245,.86);backdrop-filter:blur(14px);
+      border-bottom:1px solid var(--line);
+    }
+    .topbar .shell{height:100%;display:flex;align-items:center;justify-content:space-between;gap:16px}
+    .brand{display:flex;align-items:center;gap:10px;font-weight:800;font-size:18px;letter-spacing:-.4px;color:var(--ink)}
+    .brand-mark{
+      width:34px;height:34px;border-radius:10px;
+      background:linear-gradient(135deg,var(--pine),var(--pine-2));
+      color:#fff;display:grid;place-items:center;font-size:16px;
+      box-shadow:0 6px 16px rgba(17,66,50,.22);
+    }
+    .nav-status{
+      display:inline-flex;align-items:center;gap:8px;
+      padding:6px 13px;border-radius:999px;
+      background:var(--surface);border:1px solid var(--line);
+      font-size:12px;font-weight:600;color:var(--ink-2);
+    }
+    .nav-status i{width:7px;height:7px;border-radius:50%;background:#16a34a;display:block}
+
+    /* Split Editorial Hero + Form */
+    .hero-wrap{padding:44px 0 36px}
+    .hero-grid{display:grid;grid-template-columns:1.08fr .92fr;gap:34px;align-items:center}
+    .kicker{
+      display:inline-flex;align-items:center;gap:8px;
+      padding:6px 12px;border-radius:999px;
+      background:var(--coral-soft);color:var(--coral);
+      font-size:11px;font-weight:800;letter-spacing:1.3px;text-transform:uppercase;
+    }
+    .hero-copy h1{
+      margin:16px 0 14px;
+      font-family:"Instrument Serif",Georgia,serif;
+      font-weight:400;
+      font-size:clamp(42px,5.4vw,68px);
+      line-height:1.02;
+      letter-spacing:-1px;
+      color:var(--ink);
+    }
+    .hero-copy h1 em{font-style:italic;color:var(--pine)}
+    .hero-copy p{margin:0 0 24px;max-width:520px;color:var(--muted);font-size:16px;line-height:1.65}
+
+    .presets-label{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:1.1px;color:var(--muted);margin-bottom:10px}
+    .presets{display:flex;flex-wrap:wrap;gap:8px}
+    .preset-chip{
+      padding:8px 14px;border-radius:999px;
+      background:var(--surface);border:1px solid var(--line);
+      color:var(--ink-2);font-size:13px;font-weight:600;
+      transition:.18s;box-shadow:var(--shadow-sm);
+    }
+    .preset-chip:hover{border-color:var(--pine);color:var(--pine);transform:translateY(-1px)}
+
+    /* Planner Card */
+    .planner-card{
+      background:var(--surface);
+      border:1px solid var(--line);
+      border-radius:var(--radius-lg);
+      padding:26px;
+      box-shadow:var(--shadow-lg);
+    }
+    .planner-top{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:18px}
+    .planner-top h2{margin:0;font-size:18px;font-weight:800;letter-spacing:-.3px}
+    .duration-badge{
+      padding:5px 11px;border-radius:999px;
+      background:var(--mint);color:var(--pine);
+      font-size:12px;font-weight:700;
+    }
+    form{display:grid;grid-template-columns:1fr 1fr;gap:13px}
+    label{display:grid;gap:6px;font-size:12px;font-weight:700;color:var(--ink-2)}
+    input{
+      width:100%;height:45px;padding:0 13px;
+      border:1.5px solid var(--line);border-radius:12px;
+      background:#fcfbf9;color:var(--ink);transition:.18s;
+    }
+    input:focus{outline:none;background:#fff;border-color:var(--pine);box-shadow:0 0 0 4px rgba(17,66,50,.1)}
+    .submit{
+      grid-column:1/-1;height:50px;margin-top:4px;border:0;border-radius:13px;
+      background:linear-gradient(135deg,var(--pine),var(--pine-2));
+      color:#fff;font-size:15px;font-weight:700;letter-spacing:.2px;
+      box-shadow:0 12px 24px rgba(17,66,50,.24);transition:.2s;
+    }
+    .submit:hover{transform:translateY(-1px);box-shadow:0 16px 30px rgba(17,66,50,.3)}
+    .submit:disabled{opacity:.68;transform:none;cursor:wait}
+    .form-error{display:none;grid-column:1/-1;margin:0;color:var(--danger);font-size:13px;font-weight:600}
+    .form-error.show{display:block}
+
+    /* Progress Stepper */
+    .progress{
+      display:none;margin:18px 0 32px;padding:24px 26px;
+      background:var(--surface);border:1px solid var(--line);
+      border-radius:var(--radius-lg);box-shadow:var(--shadow-md);
+    }
+    .progress.show{display:block;animation:fadeUp .3s ease}
+    .progress-head{display:flex;align-items:center;gap:15px}
+    .spinner{
+      width:38px;height:38px;flex:0 0 auto;border-radius:50%;
+      border:3.5px solid var(--mint);border-top-color:var(--pine);
+      animation:spin .8s linear infinite;
+    }
+    .progress strong{display:block;font-size:16px;color:var(--ink)}
+    .progress span{font-size:13px;color:var(--muted)}
+    .steps{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-top:18px;padding-top:16px;border-top:1px solid var(--line)}
+    .step{
+      padding:10px 12px;border-radius:11px;background:#faf8f5;border:1px solid var(--line);
+      font-size:12px;font-weight:600;color:var(--muted);display:flex;align-items:center;gap:8px;transition:.25s;
+    }
+    .step-dot{width:8px;height:8px;border-radius:50%;background:#cbd5e1;flex:0 0 auto}
+    .step.active{background:var(--mint);border-color:#b7decb;color:var(--pine)}
+    .step.active .step-dot{background:var(--pine);box-shadow:0 0 0 4px rgba(17,66,50,.15)}
+    .step.done{background:#f0fdf4;border-color:#bbf7d0;color:#15803d}
+    .step.done .step-dot{background:#22c55e}
+    .progress.error{background:#fff5f5;border-color:#fecaca;color:var(--danger)}
+    .progress.error .spinner,.progress.error .steps{display:none}
+    @keyframes spin{to{transform:rotate(360deg)}}
+    @keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+
+    /* Result Canvas */
+    #result{display:none;padding:10px 0 80px}
+    #result.show{display:block;animation:fadeUp .4s ease}
+
+    /* Boarding Pass Header */
+    .ticket{
+      background:linear-gradient(125deg,#102820 0%,#173e31 58%,#1e4d3d 100%);
+      color:#fff;border-radius:24px;padding:30px 32px;
+      box-shadow:var(--shadow-lg);position:relative;overflow:hidden;
+    }
+    .ticket::after{
+      content:"";position:absolute;width:360px;height:360px;border-radius:50%;
+      background:radial-gradient(circle,rgba(217,83,56,.26),transparent 65%);
+      right:-80px;top:-140px;pointer-events:none;
+    }
+    .ticket-top{display:flex;align-items:flex-start;justify-content:space-between;gap:20px;flex-wrap:wrap;position:relative;z-index:1}
+    .ticket-eyebrow{
+      display:inline-flex;align-items:center;gap:6px;padding:4px 11px;border-radius:999px;
+      background:rgba(255,255,255,.12);font-size:11px;font-weight:700;letter-spacing:1.3px;text-transform:uppercase;color:#a7f3d0;
+    }
+    .ticket h2{
+      margin:10px 0 6px;
+      font-family:"Instrument Serif",Georgia,serif;
+      font-weight:400;font-size:clamp(30px,4vw,46px);line-height:1.08;letter-spacing:-.5px;
+    }
+    .ticket-sub{margin:0;color:#cbd5e1;font-size:14.5px}
+    .ticket-actions{display:flex;gap:9px;flex-wrap:wrap}
+    .t-btn{
+      padding:9px 15px;border-radius:11px;font-size:13px;font-weight:700;
+      border:1px solid rgba(255,255,255,.22);background:rgba(255,255,255,.1);color:#fff;
+      transition:.18s;backdrop-filter:blur(6px);
+    }
+    .t-btn:hover{background:rgba(255,255,255,.2);transform:translateY(-1px)}
+    .t-btn.accent{background:var(--coral);border-color:transparent}
+    .t-btn.accent:hover{background:#c5462c}
+
+    .ticket-meta{
+      display:grid;grid-template-columns:repeat(4,1fr);gap:14px;
+      margin-top:24px;padding-top:20px;border-top:1px dashed rgba(255,255,255,.2);
+      position:relative;z-index:1;
+    }
+    .t-stat small{display:block;font-size:11px;text-transform:uppercase;letter-spacing:1px;color:#a7f3d0;font-weight:700}
+    .t-stat strong{display:block;margin-top:3px;font-size:16px;font-weight:700;color:#fff}
+
+    /* Bento Snapshot Row */
+    .bento{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin:20px 0 24px}
+    .bento-card{
+      background:var(--surface);border:1px solid var(--line);border-radius:var(--radius-md);
+      padding:20px 22px;box-shadow:var(--shadow-sm);display:flex;flex-direction:column;justify-content:space-between;gap:10px;
+    }
+    .bento-label{display:flex;align-items:center;justify-content:space-between;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:1px;color:var(--muted)}
+    .bento-main{font-size:24px;font-weight:800;color:var(--ink);letter-spacing:-.4px;line-height:1.2}
+    .bento-sub{font-size:13px;color:var(--ink-2);line-height:1.5}
+    .bento-link{display:inline-flex;align-items:center;gap:5px;font-size:12.5px;font-weight:700;color:var(--pine);text-decoration:none}
+    .bento-link:hover{text-decoration:underline}
+
+    /* Filter Tabs */
+    .filter-bar{
+      display:flex;align-items:center;gap:8px;overflow-x:auto;padding:4px 0 18px;
+      scrollbar-width:none;
+    }
+    .filter-bar::-webkit-scrollbar{display:none}
+    .filter-tab{
+      padding:9px 16px;border-radius:999px;white-space:nowrap;
+      background:var(--surface);border:1px solid var(--line);
+      color:var(--ink-2);font-size:13px;font-weight:700;transition:.16s;
+    }
+    .filter-tab:hover{border-color:var(--pine);color:var(--pine)}
+    .filter-tab.active{background:var(--ink);border-color:var(--ink);color:#fff}
+
+    /* Report Sections */
+    .report-stack{display:grid;gap:18px}
+    .report-section{
+      background:var(--surface);border:1px solid var(--line);border-radius:var(--radius-lg);
+      padding:26px 28px;box-shadow:var(--shadow-sm);
+    }
+    .report-section.hidden{display:none}
+    .sec-head{
+      display:flex;align-items:center;justify-content:space-between;gap:12px;
+      margin-bottom:18px;padding-bottom:14px;border-bottom:1px solid var(--line);
+    }
+    .sec-title{display:flex;align-items:center;gap:12px;margin:0;font-size:21px;font-weight:800;letter-spacing:-.35px;color:var(--ink)}
+    .sec-icon{
+      width:38px;height:38px;border-radius:11px;background:var(--surface-2);
+      display:grid;place-items:center;font-size:18px;flex:0 0 auto;
+    }
+    .sec-pill{
+      padding:5px 12px;border-radius:999px;background:var(--mint);color:var(--pine);
+      font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.6px;white-space:nowrap;
+    }
+
+    .report-section p{margin:10px 0;color:var(--ink-2)}
+    .report-section h3{margin:20px 0 10px;font-size:13px;font-weight:800;text-transform:uppercase;letter-spacing:.9px;color:var(--coral)}
+    .report-section blockquote{
+      margin:14px 0 4px;padding:15px 18px;border-radius:14px;
+      background:var(--surface-2);border-left:4px solid var(--pine);
+    }
+    .report-section blockquote p{margin:0;font-weight:500;color:var(--ink)}
+    .report-section a{color:var(--pine);font-weight:700;text-underline-offset:3px}
+
+    /* Key-Value Cards */
+    .report-section ul{list-style:none;padding:0;margin:8px 0;display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));align-items:start;gap:10px}
+    .report-section ul li{padding:12px 15px;border-radius:13px;background:#faf8f5;border:1px solid var(--line);font-size:14px;color:var(--ink-2)}
+    .report-section ul li.wide{grid-column:1/-1}
+    .report-section ul li strong{color:var(--ink)}
+
+    /* Top 10 / Top 5 Editorial Cards */
+    .place-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin-top:6px}
+    .place-card{
+      display:flex;flex-direction:column;justify-content:space-between;gap:14px;
+      padding:20px;border-radius:16px;background:#fcfbf9;border:1px solid var(--line);
+      transition:transform .18s,border-color .18s,box-shadow .18s;
+    }
+    .place-card:hover{transform:translateY(-2px);border-color:#b7decb;box-shadow:0 12px 26px rgba(17,66,50,.08);background:#fff}
+    .place-top{display:flex;align-items:flex-start;gap:13px}
+    .place-num{
+      font-family:"Instrument Serif",Georgia,serif;
+      font-size:28px;line-height:1;color:var(--coral);min-width:30px;padding-top:2px;
+    }
+    .place-name{margin:0;font-size:16px;font-weight:800;color:var(--ink);line-height:1.3}
+    .place-desc{margin:6px 0 0;font-size:13.5px;color:var(--ink-2);line-height:1.58}
+    .place-actions{display:flex;flex-wrap:wrap;gap:8px;padding-top:12px;border-top:1px dashed var(--line)}
+    .chip-link{
+      display:inline-flex;align-items:center;gap:5px;padding:6px 12px;border-radius:999px;
+      font-size:12px;font-weight:700;text-decoration:none!important;transition:.15s;
+    }
+    .chip-link.src{background:var(--mint);color:var(--pine)}
+    .chip-link.src:hover{background:#d4ebe0}
+    .chip-link.map{background:var(--surface-2);color:var(--ink-2)}
+    .chip-link.map:hover{background:#e7e1d8}
+
+    /* Tables */
+    .table-wrap{overflow-x:auto;margin:10px 0}
+    table{width:100%;border-collapse:separate;border-spacing:0;min-width:560px;border:1px solid var(--line);border-radius:14px;overflow:hidden}
+    th{padding:12px 14px;background:var(--surface-2);color:var(--ink);font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.7px;text-align:left}
+    td{padding:13px 14px;border-top:1px solid var(--line);color:var(--ink-2);font-size:14px;vertical-align:middle}
+    tr:hover td{background:#fcfbf9}
+    .rating-pill{display:inline-flex;align-items:center;gap:4px;padding:3px 9px;border-radius:999px;background:var(--gold-soft);color:var(--gold);font-size:12px;font-weight:800}
+
+    @media(max-width:980px){
+      .hero-grid{grid-template-columns:1fr;gap:24px}
+      .bento{grid-template-columns:1fr}
+      .ticket-meta{grid-template-columns:repeat(2,1fr)}
+      .steps{grid-template-columns:1fr 1fr}
+      .place-grid{grid-template-columns:1fr}
+    }
+    @media(max-width:560px){
+      .shell{width:min(100% - 24px,1240px)}
+      .nav-status{display:none}
+      form,.steps,.ticket-meta{grid-template-columns:1fr}
+      .planner-card,.ticket,.report-section{padding:20px 18px}
+    }
+    @media print{
+      body{background:#fff}
+      .topbar,.hero-wrap,.progress,.filter-bar,.ticket-actions{display:none!important}
+      #result{display:block!important;padding:0}
+      .report-section.hidden{display:block!important}
+      .report-section,.bento-card{box-shadow:none;break-inside:avoid}
+      .place-grid{grid-template-columns:1fr 1fr}
+    }
   </style>
 </head>
 <body>
-  <header class="topbar"><div class="shell"><div class="brand"><span class="logo">✦</span>Wayfinder</div><span class="top-note">Thoughtful trips, planned in minutes</span></div></header>
-  <section class="hero"><div class="shell"><span class="eyebrow">AI travel concierge</span><h1>Travel plans that feel ready to book.</h1><p>Routes, weather, stays and local recommendations brought together in one clear, practical itinerary.</p></div></section>
+  <header class="topbar">
+    <div class="shell">
+      <div class="brand"><span class="brand-mark">✦</span>Wayfinder</div>
+      <span class="nav-status"><i></i>Local AI + Live Travel Data</span>
+    </div>
+  </header>
+
+  <section class="hero-wrap">
+    <div class="shell hero-grid">
+      <div class="hero-copy">
+        <span class="kicker">Personal Travel Atelier</span>
+        <h1>Curated journeys, <em>grounded in real data.</em></h1>
+        <p>Live weather, road routes, hotel picks with indicative pricing, plus sourced Top 10 attractions and Top 5 local food spots—built into one clean travel dossier.</p>
+        <div class="presets-label">Try a popular route</div>
+        <div class="presets">
+          <button class="preset-chip" type="button" data-src="Delhi" data-dst="Jibhi">Delhi → Jibhi</button>
+          <button class="preset-chip" type="button" data-src="Delhi" data-dst="Rishikesh">Delhi → Rishikesh</button>
+          <button class="preset-chip" type="button" data-src="Mumbai" data-dst="Goa">Mumbai → Goa</button>
+          <button class="preset-chip" type="button" data-src="Bengaluru" data-dst="Coorg">Bengaluru → Coorg</button>
+        </div>
+      </div>
+
+      <div class="planner-card" id="planner-card">
+        <div class="planner-top">
+          <h2>Plan your trip</h2>
+          <span class="duration-badge" id="live-duration">5 Days</span>
+        </div>
+        <form id="trip-form">
+          <label>Leaving from<input name="source" value="Delhi" placeholder="City or airport" required></label>
+          <label>Going to<input name="destination" value="Rishikesh" placeholder="City or region" required></label>
+          <label>Departure<input name="start_date" type="date" required></label>
+          <label>Return<input name="end_date" type="date" required></label>
+          <label>Travelers<input name="travelers" type="number" min="1" max="20" value="2" required></label>
+          <label>Budget (₹)<input name="budget" type="number" min="1" value="30000" required></label>
+          <p id="form-error" class="form-error"></p>
+          <button class="submit" type="submit">Generate Travel Dossier &nbsp;→</button>
+        </form>
+      </div>
+    </div>
+  </section>
+
   <main class="shell">
-    <section class="planner">
-      <div class="planner-head"><div><h2>Where are you headed?</h2><p>Add your trip details and we’ll research the rest.</p></div><span class="badge">Personalized plan</span></div>
-      <form id="trip-form">
-        <label>Leaving from<input name="source" value="Delhi" placeholder="City or airport" required></label>
-        <label>Going to<input name="destination" value="Rishikesh" placeholder="City or region" required></label>
-        <label>Departure<input name="start_date" type="date" required></label>
-        <label>Return<input name="end_date" type="date" required></label>
-        <label>Travelers<input name="travelers" type="number" min="1" max="20" value="2" required></label>
-        <label>Total budget (₹)<input name="budget" type="number" min="1" value="30000" required></label>
-        <p id="form-error" class="form-error"></p>
-        <button class="submit" type="submit">Create my travel plan&nbsp; →</button>
-      </form>
+    <section id="loading" class="progress" role="status">
+      <div class="progress-head">
+        <div class="spinner"></div>
+        <div>
+          <strong>Building your personalized trip</strong>
+          <span id="loading-message">Reviewing your destination and travel details…</span>
+        </div>
+      </div>
+      <div class="steps" id="progress-steps">
+        <div class="step active"><span class="step-dot"></span>Trip Details</div>
+        <div class="step"><span class="step-dot"></span>Live Weather</div>
+        <div class="step"><span class="step-dot"></span>Road Routes</div>
+        <div class="step"><span class="step-dot"></span>Top Stays</div>
+        <div class="step"><span class="step-dot"></span>Top 10 &amp; Food</div>
+      </div>
     </section>
-    <section id="loading" class="progress" role="status"><div class="spinner"></div><div><strong>Building your personalized trip</strong><span id="loading-message">Reviewing your destination and travel details…</span></div></section>
+
     <section id="result">
-      <div class="result-hero"><div><span class="route-label">Your itinerary</span><h2 id="trip-title">Your trip</h2><p id="trip-meta"></p></div><div class="route-icon">⌁</div></div>
-      <div class="facts"><div class="fact"><small>Departure</small><strong id="fact-start">—</strong></div><div class="fact"><small>Return</small><strong id="fact-end">—</strong></div><div class="fact"><small>Travel party</small><strong id="fact-travelers">—</strong></div><div class="fact"><small>Total budget</small><strong id="fact-budget">—</strong></div></div>
-      <div class="result-grid"><nav id="toc" class="toc" aria-label="Trip report sections"><div class="toc-title">In this plan</div></nav><article id="report" class="report"></article></div>
+      <div class="ticket">
+        <div class="ticket-top">
+          <div>
+            <span class="ticket-eyebrow" id="trip-duration-pill">Curated Dossier</span>
+            <h2 id="trip-title">Your trip</h2>
+            <p class="ticket-sub" id="trip-meta"></p>
+          </div>
+          <div class="ticket-actions">
+            <button id="new-trip" class="t-btn" type="button">Edit Trip</button>
+            <button id="copy-md" class="t-btn" type="button">Copy Markdown</button>
+            <button id="print-plan" class="t-btn accent" type="button">Print / Save PDF</button>
+          </div>
+        </div>
+        <div class="ticket-meta">
+          <div class="t-stat"><small>Departure</small><strong id="fact-start">—</strong></div>
+          <div class="t-stat"><small>Return</small><strong id="fact-end">—</strong></div>
+          <div class="t-stat"><small>Travelers</small><strong id="fact-travelers">—</strong></div>
+          <div class="t-stat"><small>Total Budget</small><strong id="fact-budget">—</strong></div>
+        </div>
+      </div>
+
+      <div class="bento" id="bento-row"></div>
+
+      <div class="filter-bar" id="filter-bar" role="tablist" aria-label="Filter itinerary sections"></div>
+
+      <div class="report-stack" id="report"></div>
     </section>
   </main>
+
   <script>
-    const form=document.querySelector('#trip-form'),loading=document.querySelector('#loading'),result=document.querySelector('#result'),report=document.querySelector('#report'),toc=document.querySelector('#toc'),button=form.querySelector('button'),formError=document.querySelector('#form-error');
+    const form=document.querySelector('#trip-form'),loading=document.querySelector('#loading'),result=document.querySelector('#result'),report=document.querySelector('#report'),bentoRow=document.querySelector('#bento-row'),filterBar=document.querySelector('#filter-bar'),button=form.querySelector('button'),formError=document.querySelector('#form-error'),copyBtn=document.querySelector('#copy-md'),printBtn=document.querySelector('#print-plan'),newTripBtn=document.querySelector('#new-trip'),durationBadge=document.querySelector('#live-duration');
+    let lastMarkdown='',currentDestination='';
+
+    // Default dates: tomorrow + 4 days
+    const toIso=d=>d.toISOString().slice(0,10);
+    const d1=new Date();d1.setDate(d1.getDate()+1);
+    const d2=new Date();d2.setDate(d2.getDate()+5);
+    if(!form.start_date.value)form.start_date.value=toIso(d1);
+    if(!form.end_date.value)form.end_date.value=toIso(d2);
+
+    function updateDurationBadge(){
+      if(!form.start_date.value||!form.end_date.value)return;
+      const diff=Math.round((new Date(form.end_date.value)-new Date(form.start_date.value))/86400000)+1;
+      durationBadge.textContent=diff>=1?`${diff} ${diff===1?'Day':'Days'}`:'Check dates';
+    }
+    form.start_date.addEventListener('change',updateDurationBadge);
+    form.end_date.addEventListener('change',updateDurationBadge);
+    updateDurationBadge();
+
+    document.querySelectorAll('.preset-chip').forEach(chip=>{
+      chip.addEventListener('click',()=>{
+        form.source.value=chip.dataset.src;
+        form.destination.value=chip.dataset.dst;
+      });
+    });
+
+    const sectionIcons={'trip overview':'🧭','transportation':'🚗','accommodation':'🏨','destination guide':'📖','best time to visit':'🌤️','top attractions & activities':'📍','local food & cuisine':'🍽️','travel tips':'💡','festivals & events':'🎉'};
+    const iconFor=title=>sectionIcons[String(title||'').toLowerCase().trim()]||'✦';
     const escapeHtml=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
     const inline=text=>escapeHtml(text).replace(/\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)/g,'<a href="$2" target="_blank" rel="noopener noreferrer">$1 ↗</a>').replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>').replace(/\*(.+?)\*/g,'<em>$1</em>').replace(/`(.+?)`/g,'<code>$1</code>');
+
     function parseMarkdown(source){
       const lines=String(source||'').replace(/\r/g,'').split('\n'),out=[];let list=null,table=null,paragraph=[];
       const flushParagraph=()=>{if(paragraph.length){out.push('<p>'+inline(paragraph.join(' '))+'</p>');paragraph=[]}};
@@ -57,13 +456,265 @@
       const flush=()=>{flushParagraph();flushList();flushTable()};
       for(const raw of lines){const line=raw.trim();if(!line){flush();continue}const heading=line.match(/^(#{1,3})\s+(.+)$/);if(heading){flush();const level=heading[1].length;out.push(`<h${level}>${inline(heading[2])}</h${level}>`);continue}if(/^\|.*\|$/.test(line)){flushParagraph();flushList();(table??=[]).push(line.slice(1,-1).split('|').map(x=>x.trim()));continue}const item=line.match(/^([-*]|\d+\.)\s+(.+)$/);if(item){flushParagraph();flushTable();const type=/\d/.test(item[1])?'ol':'ul';if(list&&list.type!==type)flushList();list??={type,items:[]};list.items.push(item[2]);continue}if(line.startsWith('>')){flush();out.push('<blockquote><p>'+inline(line.replace(/^>\s?/,''))+'</p></blockquote>');continue}if(/^---+$/.test(line)){flush();continue}flushList();flushTable();paragraph.push(line)}flush();return out.join('');
     }
-    function sectionReport(html){const holder=document.createElement('div');holder.innerHTML=html;const sections=[];let current=null;[...holder.childNodes].forEach(node=>{if(node.nodeType===1&&node.tagName==='H2'){current=document.createElement('section');current.className='report-section';const slug='section-'+sections.length;node.id=slug;current.appendChild(node);sections.push(current)}else if(node.nodeType===1&&node.tagName==='H1'){}else{if(!current){current=document.createElement('section');current.className='report-section';sections.push(current)}current.appendChild(node)}});return sections}
-    function renderReport(markdown){report.innerHTML='';toc.querySelectorAll('a').forEach(a=>a.remove());const sections=sectionReport(parseMarkdown(markdown));if(!sections.length){report.innerHTML='<div class="report-section empty">No report details were returned.</div>';return}sections.forEach((section,index)=>{report.appendChild(section);const heading=section.querySelector('h2');if(heading){const a=document.createElement('a');a.href='#'+heading.id;a.textContent=heading.textContent;toc.appendChild(a)}})}
+
+    function upgradeOrderedList(ol){
+      const grid=document.createElement('div');
+      grid.className='place-grid';
+      [...ol.querySelectorAll('li')].forEach((li,idx)=>{
+        const anchors=[...li.querySelectorAll('a')];
+        const sourceHref=anchors.length?anchors[0].getAttribute('href'):'';
+        const clone=li.cloneNode(true);
+        clone.querySelectorAll('a').forEach(a=>a.remove());
+        let title='',desc='';
+        const strongMatch=clone.querySelector('strong');
+        if(strongMatch){
+          title=strongMatch.textContent.trim();
+          const tmp=document.createElement('div');
+          tmp.innerHTML=clone.innerHTML;
+          const fs=tmp.querySelector('strong');
+          if(fs)fs.remove();
+          desc=tmp.textContent.replace(/^\s*[-–—:]\s*/,'').replace(/\(\s*\)\s*$/,'').trim();
+        }else{
+          const parts=clone.textContent.split(/\s+[-–—]\s+/);
+          title=parts[0]||`Pick #${idx+1}`;
+          desc=parts.slice(1).join(' — ').replace(/\(\s*\)\s*$/,'').trim();
+        }
+        const mapsUrl=`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(title+(currentDestination?' '+currentDestination:''))}`;
+        const card=document.createElement('article');
+        card.className='place-card';
+        card.innerHTML=`
+          <div>
+            <div class="place-top">
+              <span class="place-num">${String(idx+1).padStart(2,'0')}</span>
+              <div>
+                <h4 class="place-name">${escapeHtml(title)}</h4>
+                ${desc?`<p class="place-desc">${escapeHtml(desc)}</p>`:''}
+              </div>
+            </div>
+          </div>
+          <div class="place-actions">
+            ${sourceHref?`<a class="chip-link src" href="${escapeHtml(sourceHref)}" target="_blank" rel="noopener noreferrer">Read Source ↗</a>`:''}
+            <a class="chip-link map" href="${mapsUrl}" target="_blank" rel="noopener noreferrer">Find on Maps ↗</a>
+          </div>`;
+        grid.appendChild(card);
+      });
+      ol.replaceWith(grid);
+    }
+
+    function buildBento(sections){
+      bentoRow.innerHTML='';
+      const textOf=sec=>sec?sec.textContent:'';
+      const byTitle=key=>sections.find(s=>(s.dataset.title||'').includes(key));
+
+      // 1. Weather Bento
+      const overviewSec=byTitle('trip overview');
+      let temp='—',cond='Check weather section',hum='';
+      if(overviewSec){
+        overviewSec.querySelectorAll('li').forEach(li=>{
+          const t=li.textContent;
+          if(t.startsWith('Temperature:'))temp=t.replace('Temperature:','').trim();
+          if(t.startsWith('Condition:'))cond=t.replace('Condition:','').trim();
+          if(t.startsWith('Humidity:'))hum=t.replace('Humidity:','').trim();
+        });
+      }
+      const wCard=document.createElement('div');
+      wCard.className='bento-card';
+      wCard.innerHTML=`
+        <div class="bento-label"><span>Weather Snapshot</span><span>🌤️</span></div>
+        <div class="bento-main">${escapeHtml(temp)}</div>
+        <div class="bento-sub">${escapeHtml(cond)}${hum&&hum!=='Information not available'?` • Humidity ${escapeHtml(hum)}`:''}</div>`;
+      bentoRow.appendChild(wCard);
+
+      // 2. Transport Bento
+      const transSec=byTitle('transportation');
+      let routeMain='Road Travel',routeSub='Check route details',mapsLink='';
+      if(transSec){
+        const row=transSec.querySelector('tbody tr');
+        if(row){
+          const cells=[...row.querySelectorAll('td')].map(td=>td.textContent.trim());
+          if(cells.length>=4){routeMain=cells[1];routeSub=`${cells[2]} • ${cells[3]}`}
+        }
+        const a=transSec.querySelector('a[href*="google.com/maps"]');
+        if(a)mapsLink=a.getAttribute('href');
+      }
+      const tCard=document.createElement('div');
+      tCard.className='bento-card';
+      tCard.innerHTML=`
+        <div class="bento-label"><span>Primary Route</span><span>🚗</span></div>
+        <div class="bento-main">${escapeHtml(routeMain)}</div>
+        <div class="bento-sub">${escapeHtml(routeSub)}</div>
+        ${mapsLink?`<a class="bento-link" href="${escapeHtml(mapsLink)}" target="_blank" rel="noopener noreferrer">Open in Google Maps ↗</a>`:''}`;
+      bentoRow.appendChild(tCard);
+
+      // 3. Top Stay Bento
+      const accSec=byTitle('accommodation');
+      let stayMain='Curated Stays',staySub='See hotel options below';
+      if(accSec){
+        accSec.querySelectorAll('p').forEach(p=>{
+          if(p.textContent.startsWith('Best Recommended Hotel:'))stayMain=p.textContent.replace('Best Recommended Hotel:','').trim();
+          if(p.textContent.startsWith('Reason:'))staySub=p.textContent.replace('Reason:','').trim();
+        });
+      }
+      const aCard=document.createElement('div');
+      aCard.className='bento-card';
+      aCard.innerHTML=`
+        <div class="bento-label"><span>Top Pick Stay</span><span>🏨</span></div>
+        <div class="bento-main" style="font-size:19px">${escapeHtml(stayMain)}</div>
+        <div class="bento-sub">${escapeHtml(staySub)}</div>`;
+      bentoRow.appendChild(aCard);
+    }
+
+    function renderReport(markdown){
+      lastMarkdown=markdown||'';
+      report.innerHTML='';
+      filterBar.innerHTML='';
+      const holder=document.createElement('div');
+      holder.innerHTML=parseMarkdown(markdown);
+      const sections=[];let current=null;
+      [...holder.childNodes].forEach(node=>{
+        if(node.nodeType===1&&node.tagName==='H2'){
+          const titleText=node.textContent.trim();
+          current=document.createElement('section');
+          current.className='report-section';
+          current.dataset.title=titleText.toLowerCase();
+          const head=document.createElement('div');head.className='sec-head';
+          const h2=document.createElement('h2');h2.className='sec-title';
+          h2.innerHTML=`<span class="sec-icon" aria-hidden="true">${iconFor(titleText)}</span><span>${escapeHtml(titleText)}</span>`;
+          head.appendChild(h2);
+          current.appendChild(head);
+          sections.push(current);
+        }else if(node.nodeType===1&&node.tagName==='H1'){}
+        else{
+          if(!current){
+            current=document.createElement('section');
+            current.className='report-section';
+            current.dataset.title='overview';
+            sections.push(current);
+          }
+          current.appendChild(node);
+        }
+      });
+
+      sections.forEach(sec=>{
+        const ol=sec.querySelector('ol'),head=sec.querySelector('.sec-head');
+        if(ol){
+          const count=ol.children.length;
+          upgradeOrderedList(ol);
+          if(head){
+            const pill=document.createElement('span');
+            pill.className='sec-pill';
+            pill.textContent=`Top ${count}`;
+            head.appendChild(pill);
+          }
+        }
+        sec.querySelectorAll('ul li').forEach(li=>{
+          if(li.textContent.trim().length>85)li.classList.add('wide');
+        });
+        sec.querySelectorAll('table').forEach(table=>{
+          const headers=[...table.querySelectorAll('th')].map(th=>th.textContent.toLowerCase().trim());
+          const ratingIdx=headers.indexOf('rating');
+          if(ratingIdx!==-1){
+            table.querySelectorAll('tbody tr').forEach(tr=>{
+              const cell=tr.children[ratingIdx];
+              if(cell&&/^\d(\.\d+)?$/.test(cell.textContent.trim())){
+                cell.innerHTML=`<span class="rating-pill">★ ${escapeHtml(cell.textContent.trim())}</span>`;
+              }
+            });
+          }
+        });
+        report.appendChild(sec);
+      });
+
+      buildBento(sections);
+
+      // Filter tabs
+      const groups=[
+        {id:'all',label:'All Sections',match:()=>true},
+        {id:'attractions',label:'📍 Top 10 Attractions',match:t=>t.includes('attractions')},
+        {id:'food',label:'🍽️ Top 5 Food',match:t=>t.includes('food')},
+        {id:'stays',label:'🏨 Stays & Routes',match:t=>t.includes('accommodation')||t.includes('transportation')},
+        {id:'guide',label:'💡 Guide & Tips',match:t=>t.includes('overview')||t.includes('guide')||t.includes('best time')||t.includes('tips')||t.includes('festivals')},
+      ];
+      groups.forEach((g,idx)=>{
+        const btn=document.createElement('button');
+        btn.type='button';
+        btn.className='filter-tab'+(idx===0?' active':'');
+        btn.textContent=g.label;
+        btn.addEventListener('click',()=>{
+          filterBar.querySelectorAll('.filter-tab').forEach(b=>b.classList.remove('active'));
+          btn.classList.add('active');
+          sections.forEach(s=>s.classList.toggle('hidden',!g.match(s.dataset.title||'')));
+        });
+        filterBar.appendChild(btn);
+      });
+    }
+
+    copyBtn.addEventListener('click',async()=>{if(!lastMarkdown)return;try{await navigator.clipboard.writeText(lastMarkdown);copyBtn.textContent='Copied!';setTimeout(()=>copyBtn.textContent='Copy Markdown',1800)}catch{copyBtn.textContent='Copy failed';setTimeout(()=>copyBtn.textContent='Copy Markdown',1800)}});
+    printBtn.addEventListener('click',()=>window.print());
+    newTripBtn.addEventListener('click',()=>document.querySelector('#planner-card').scrollIntoView({behavior:'smooth',block:'start'}));
+
     const money=n=>new Intl.NumberFormat('en-IN',{style:'currency',currency:'INR',maximumFractionDigits:0}).format(n);
     const prettyDate=value=>{const d=new Date(value+'T00:00:00');return Number.isNaN(d.valueOf())?value:new Intl.DateTimeFormat('en-IN',{day:'numeric',month:'short',year:'numeric'}).format(d)};
-    const loadingMessages=['Reviewing your destination and travel details…','Checking weather and the best ways to get there…','Finding stays that fit your budget…','Putting your recommendations into a clear itinerary…'];let messageTimer;
-    function startLoading(){let i=0;loading.className='progress show';document.querySelector('#loading-message').textContent=loadingMessages[0];messageTimer=setInterval(()=>{i=(i+1)%loadingMessages.length;document.querySelector('#loading-message').textContent=loadingMessages[i]},3500)}
-    form.addEventListener('submit',async event=>{event.preventDefault();formError.classList.remove('show');const data=Object.fromEntries(new FormData(form));data.travelers=Number(data.travelers);data.budget=Number(data.budget);if(data.end_date<data.start_date){formError.textContent='Return date must be after the departure date.';formError.classList.add('show');return}result.classList.remove('show');button.disabled=true;startLoading();try{const response=await fetch('/api/trips/plan',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(data)});let payload;try{payload=await response.json()}catch{throw new Error('The server returned an unreadable response. Please try again.')}if(!response.ok)throw new Error(payload.detail||'Unable to create this trip right now.');const trip=payload.trip;document.querySelector('#trip-title').textContent=`${trip.source} → ${trip.destination}`;document.querySelector('#trip-meta').textContent=`${prettyDate(trip.start_date)} – ${prettyDate(trip.end_date)}`;document.querySelector('#fact-start').textContent=prettyDate(trip.start_date);document.querySelector('#fact-end').textContent=prettyDate(trip.end_date);document.querySelector('#fact-travelers').textContent=`${trip.travelers} ${trip.travelers===1?'traveler':'travelers'}`;document.querySelector('#fact-budget').textContent=money(trip.budget);renderReport(payload.report_markdown);loading.classList.remove('show');result.classList.add('show');result.scrollIntoView({behavior:'smooth',block:'start'})}catch(error){loading.className='progress show error';loading.querySelector('strong').textContent='We couldn’t build this trip';document.querySelector('#loading-message').textContent=error.message}finally{clearInterval(messageTimer);button.disabled=false}});
+    const loadingMessages=[
+      'Reviewing your destination and travel details…',
+      'Checking live weather and packing conditions…',
+      'Mapping road routes and travel durations…',
+      'Finding stays and indicative nightly rates…',
+      'Curating Top 10 attractions & Top 5 local food spots…'
+    ];
+    let messageTimer;
+
+    function startLoading(){
+      let i=0;
+      const steps=[...document.querySelectorAll('#progress-steps .step')];
+      const setStep=idx=>steps.forEach((s,k)=>{
+        s.classList.toggle('done',k<idx);
+        s.classList.toggle('active',k===idx);
+      });
+      loading.className='progress show';
+      loading.querySelector('strong').textContent='Building your personalized trip';
+      document.querySelector('#loading-message').textContent=loadingMessages[0];
+      setStep(0);
+      messageTimer=setInterval(()=>{
+        if(i<loadingMessages.length-1)i++;
+        document.querySelector('#loading-message').textContent=loadingMessages[i];
+        setStep(i);
+      },5000);
+    }
+
+    form.addEventListener('submit',async event=>{
+      event.preventDefault();formError.classList.remove('show');
+      const data=Object.fromEntries(new FormData(form));
+      data.travelers=Number(data.travelers);data.budget=Number(data.budget);
+      if(data.end_date<data.start_date){formError.textContent='Return date must be on or after the departure date.';formError.classList.add('show');return}
+      result.classList.remove('show');button.disabled=true;startLoading();
+      try{
+        const response=await fetch('/api/trips/plan',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(data)});
+        let payload;
+        try{payload=await response.json()}catch{throw new Error('The server returned an unreadable response. Please try again.')}
+        if(!response.ok)throw new Error(payload.detail||'Unable to create this trip right now.');
+        const trip=payload.trip;
+        currentDestination=trip.destination;
+        const days=Math.max(1,Math.round((new Date(trip.end_date)-new Date(trip.start_date))/86400000)+1);
+        document.querySelector('#trip-duration-pill').textContent=`${days}-Day Curated Dossier`;
+        document.querySelector('#trip-title').textContent=`${trip.source} → ${trip.destination}`;
+        document.querySelector('#trip-meta').textContent=`${prettyDate(trip.start_date)} – ${prettyDate(trip.end_date)}`;
+        document.querySelector('#fact-start').textContent=prettyDate(trip.start_date);
+        document.querySelector('#fact-end').textContent=prettyDate(trip.end_date);
+        document.querySelector('#fact-travelers').textContent=`${trip.travelers} ${trip.travelers===1?'traveler':'travelers'}`;
+        document.querySelector('#fact-budget').textContent=money(trip.budget);
+        renderReport(payload.report_markdown);
+        loading.classList.remove('show');
+        result.classList.add('show');
+        result.scrollIntoView({behavior:'smooth',block:'start'});
+      }catch(error){
+        loading.className='progress show error';
+        loading.querySelector('strong').textContent='We couldn’t build this trip';
+        document.querySelector('#loading-message').textContent=error.message;
+      }finally{
+        clearInterval(messageTimer);button.disabled=false;
+      }
+    });
   </script>
 </body>
 </html>
